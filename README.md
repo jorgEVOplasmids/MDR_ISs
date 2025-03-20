@@ -12,5 +12,4 @@ To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2
 
 ### Log-rank test to test survival during experimental evolution
 
-To compare the survival of the KPN08 samples with and without pOXA-48 (**Fig. 2B**) we used the *survival* and *survminer* R packages implemented in the **EESCRIPT**. We used a Log-Rank test per antibiotic comparing the pOXA-48- and pOXA-48+ strains survival against 
- 
+To compare the survival of the KPN08 samples with and without pOXA-48 (**Fig. 2B**) we used the *survival* and *survminer* R packages implemented in the **EESCRIPT**. We used a Log-Rank test per antibiotic comparing the pOXA-48- and pOXA-48+ strains survival against the different antibiotics. We specifically used the modified Log-Rank test with the Fleming-Harrington method, which assigns larger weights to final times of the experiment.

@@ -8,4 +8,4 @@ To analyze the phenotypic resistant mutation rate of the diverse *Klebsiella pne
 
 ### Generalized Linear Model of survival during evolutionary rescue
 
-To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2A**) survived better when carrying pOXA-48 against a wide range of antibiotics, we built a logistic regression model for each antibiotic and strain.
+To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2A**) survived better when carrying pOXA-48 against a wide range of antibiotics, we built a logistic regression model for each antibiotic and strain. 

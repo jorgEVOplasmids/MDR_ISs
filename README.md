@@ -20,4 +20,8 @@ To compare the survival of the KPN08 samples with and without pOXA-48 (**Fig. 2B
 
 ### Distribution of KOs in AMR determinants by plasmid-borne ISs
 
+To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), quality (*good*) and family (*Enterobacteriaceae*).
+
+### Analysis of KOs by Iss impact on AMR
+
 

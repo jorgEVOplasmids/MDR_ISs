@@ -26,7 +26,7 @@ To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, 
 To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for betalactams due to their clinical relevance. 
 
 * First, we downloaded the complete metadata, selecting those from the *Enterobacteriaceae* family ([Databases_analysis/Download_Genomes.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/Download_Genomes.sh)).
-* Then, we filtered out inconsistent data (e.g., genomes labeled as both Resistant and Susceptible without M.I.C. information).
+* Then, we filtered out inconsistent data. We deleted genomes without phenotypic information, labeled as both Resistant and Susceptible without M.I.C. information or genomes with higher values of Susceptible M.I.C. than Resistant M.I.C. ([Databases_analysis/General_Filtering.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/General_Filtering.sh)).
 * ANOTATE
 * R CODE PRINCIPAL
 * The final plotting and statistical analysis can be found in [Databases_analysis/KO_impact_Phenotypic_AMR](https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Databases_analysis/KO_impact_Phenotypic_AMR).

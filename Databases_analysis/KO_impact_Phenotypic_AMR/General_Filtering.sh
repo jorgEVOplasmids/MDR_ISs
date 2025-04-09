@@ -9,7 +9,11 @@ temp_file=$(mktemp)
 awk -F',' '
 BEGIN {
     OFS=",";
-    print "Taxon ID", "Genome ID", "Genome Name", "Antibiotic", "Resistant Phenotype", "Measurement", "Measurement Sign", "Measurement Value", "Measurement Unit", "Laboratory Typing Method", "Laboratoy Typing Method Version", "Laboratory Typing Platform", "Vendor", "Testing Standard", "Testing Standart Year", "Computational Method", "Computational Method Version", "Computational MEthod Performance", "Evidence", "Source", "Pubmed" > "'"$temp_file"'"
+    print "Taxon ID", "Genome ID", "Genome Name", "Antibiotic", "Resistant Phenotype", "Measurement", 
+    "Measurement Sign", "Measurement Value", "Measurement Unit", "Laboratory Typing Method", 
+    "Laboratoy Typing Method Version", "Laboratory Typing Platform", "Vendor", "Testing Standard", 
+    "Testing Standart Year", "Computational Method", "Computational Method Version", 
+    "Computational Method Performance", "Evidence", "Source", "Pubmed" > "'"$temp_file"'"
 }
 {
     if (NR == 1) next;  
@@ -21,7 +25,8 @@ END {
     for (key in data) {  
         split(data[key], rows, ORS);  
         
-        # Keep the row if there is only one coincidence for Genome_ID and there is information for the column Antibiotic and Resistance.Phenotype 
+        # Keep the row if there is only one coincidence for Genome_ID and there is information for 
+        #the column Antibiotic and Resistance.Phenotype 
         
         if (length(rows) == 1) { 
             split(rows[1], cols, FS);
@@ -46,7 +51,8 @@ END {
             has_resistant = 0;
             has_susceptible = 0;
             
-            # If there are several coincidences for Genome_ID, we extract the minimum value for Resistant M.I.C and the maximum value for Susceptible M.I.C.
+            # If there are several coincidences for Genome_ID, we extract the minimum value for Resistant
+            # M.I.C and the maximum value for Susceptible M.I.C.
             
             for (i in rows) {
                 split(rows[i], cols, FS);
@@ -83,7 +89,8 @@ END {
             }
             
 
-            # If there are values both for Resistant and Susceptible data, we keep both if Resistant > Susceptible data.
+            # If there are values both for Resistant and Susceptible data, we keep both if 
+            #Resistant > Susceptible data.
             
             if (has_resistant && has_susceptible) {
                 if (min_resistant_row != "" && max_susceptible_row != "") {
@@ -93,7 +100,8 @@ END {
                     }
                 }
             
-            #  If there is only data for one of the phenotypes, keep the highest value for Susceptible and the lowest for Resistant.
+            #  If there is only data for one of the phenotypes, keep the highest value for 
+            # Susceptible and the lowest for Resistant.
             } else if (has_resistant && !has_susceptible) {
             	if (min_resistant_row != "") {
             		print min_resistant_row >> "'"$temp_file"'"

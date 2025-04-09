@@ -71,7 +71,11 @@ clean_CTX <- clean_CTX %>%
 Meg <- Meg[!(Meg$Code %in% clean_CTX$Code), ]
 
 ###############################################################################
-
+                          
+# In order to detect AMR-related genes disrupted by ISs, we set a loop. 
+# If a same genome has data in the Megares and IS dataframe, within the same
+# sequence (contig) and the IS is adyacent to the gen, it is added in the
+# genral results.
 betalactam_general <- data.frame()
 
 for (i in 1:nrow(Meg)) {
@@ -97,13 +101,15 @@ for (i in 1:nrow(Meg)) {
 
 
 betalactam_results <- betalactam_general[-c(5,11,13,16,17,18,25,26,27)]
-
-
+betalactam_results <- betalactam_results %>% filter(X.Coverage < 100, )
 betalactam_results$File_number <- sapply(strsplit(betalactam_results$File, "_"), 
                                          function(x) paste(x[1], x[2], sep = "_"))
 
-
-
+# We added the Species to the results and  match the genomes to the different Antibiotics
+# and Resistance  phenotype of betalactams. For betalactamics and polymyxin data, it is set
+# as a relationship "many-to-many", while for the rest of antibiotics the data is acquired 
+# using the same loop used for Species. 
+                                         
 betalactam_results$Species <- NA
 for (i in 1:nrow(betalactam_results)) {
   file_meg <- betalactam_results$File_number[i]
@@ -115,46 +121,9 @@ for (i in 1:nrow(betalactam_results)) {
   }
 }
 
-
-betalactam_results$Phenotype <- NA
-for (i in 1:nrow(betalactam_results)) {
-  file_meg <- betalactam_results$File_number[i]
-  match_BV <- NCBI %>%
-    filter(File_number == file_meg)
-  
-  if (nrow(match_BV) > 0) {
-    betalactam_results$Phenotype[i] <- match_BV$Resistance.phenotype[1] 
-  }
-}
-
-betalactam_results$Measurement_sign <- NA
-for (i in 1:nrow(betalactam_results)) {
-  file_meg <- betalactam_results$File_number[i]
-  match_BV <- NCBI %>%
-    filter( File_number == file_meg)
-  
-  if (nrow(match_BV) > 0) {
-    betalactam_results$Measurement_sign[i] <- match_BV$Measurement.sign[1] 
-  }
-}
-
-betalactam_results$Measurement <- NA
-for (i in 1:nrow(betalactam_results)) {
-  file_meg <- betalactam_results$File_number[i]
-  match_BV <- NCBI %>%
-    filter( File_number == file_meg)
-  
-  if (nrow(match_BV) > 0) {
-    betalactam_results$Measurement[i] <- match_BV$MIC..mg.L.[1] 
-  }
-}
-
-
 betalactam_results <- betalactam_results %>% relocate (Species, .before = File.x)
-
                                          
 betalactam_result$Assembly_ID <- sapply(strsplit(betalactam_result$File, "_"), function(x) paste(x[1], x[2], sep = "_"))
-
 
 betalactam_result <- betalactam_result %>%
   left_join(NCBI %>% select(Assembly_ID, Antibiotic, Resistance.phenotype),
@@ -162,7 +131,7 @@ betalactam_result <- betalactam_result %>%
 #write_csv(betalactam_result, "betalactam_results.csv", col_names = TRUE)
 
 
-
+#Lastly, we identified and count the KO genes and elements to analyse all the atb together
 ko_genes <- betalactam_result %>%
   group_by(Antibiotic,Resistance.phenotype, Element)%>%
   count(Gene)
@@ -177,31 +146,6 @@ ko_elements <- betalactam_results %>%
   count(Element.x)
 write_csv(ko_elements, "target_elements.csv", col_names = TRUE)
 
-#betalactam_results <- betalactam_results %>% filter(X.Coverage < 99.5, )
-
-
-
-ggplot(betalactam_results, aes(x = Family.x, fill = Family.x)) +
-  geom_bar(aes(y = ..count..), position = position_dodge(width = 0.8), stat = "count") +
-  facet_wrap(~Phenotype, ncol = 1, scales = "free_y") +  
-  scale_fill_viridis_d(option = "turbo") +  
-  labs(
-    title = "Counts of Events per Family by Phenotype",
-    x = "Family",
-    y = "Count",
-    fill = "Family"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),  # Rotate x-axis labels
-    legend.position = "right",  # Place legend to the right
-    plot.title = element_text(hjust = 0.5)  # Center-align the title
-  )
-ggplot(presence_mgrb, aes(x = Phenotype, fill = ))
-
-
-betalactam_results <- read.csv("Betalactams/betalactam_results.csv")
-
 
 
 
@@ -215,7 +159,6 @@ resistance_counts <- resistance_counts %>%
     highlight = ifelse(Resistance.phenotype == "sensible" & n == 12, "highlight", "normal")
   )
 
-
 ggplot(resistance_counts, aes(x = Resistance.phenotype, y = n, fill = Resistance.phenotype)) +
   geom_bar(stat = "identity", width = 0.6) +
   labs(
@@ -227,7 +170,6 @@ ggplot(resistance_counts, aes(x = Resistance.phenotype, y = n, fill = Resistance
   scale_fill_manual(values = c("resistant" = "orange", "sensible" = "grey")) +
   #scale_y_continuous(breaks = seq(0, max(resistance_counts$n) + 5, by = 5)) +
   theme(legend.position = "none")
-
 
 
 #separating different ATBs from Betalactamic family 

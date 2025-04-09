@@ -28,7 +28,8 @@ do
   echo "Found Assembly ID: $assembly_id"
   echo "$biosample_id,$assembly_id" >> "$downloads"
   
-  # Get the FTP path for the assembly,get the filename from the path, download the FASTA and extract it
+  # Get the FTP path for the assembly,get the filename from the path, download 
+  # the FASTA and extract it
  ftp_path=$(esearch -db assembly -query "$assembly_id" -email "$email" | \
              esummary | \
              xtract -pattern DocumentSummary -element FtpPath_GenBank)

@@ -27,6 +27,6 @@ To investigate the relationship between the disruption of AMR-related genes and 
 
 1. We downloaded the complete metadata, selecting those from the *Enterobacteriaceae* family and using the NCBI FTP to download the whole genomes. ([Databases_analysis/KO_impact_Phenotypic_AMR/Download_Genomes.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/Download_Genomes.sh))
 2. We filtered out inconsistent data. We deleted genomes without phenotypic information, genomes labelled as both Resistant and Susceptible without M.I.C. information or genomes with higher values of Susceptible M.I.C. than Resistant M.I.C. If there are multiple data for a single genome and a single phenotype, we only keep the highest M.I.C values for Susceptible data and the lowest for Resistant data. ([Databases_analysis/KO_impact_Phenotypic_AMR/General_Filtering.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/General_Filtering.sh))
-3. ANOTATE
+3. ANNNOTATION
 4. R CODE PRINCIPAL
 5. The final plotting and statistical analysis can be found in [Databases_analysis/KO_impact_Phenotypic_AMR/KO_analysis.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/KO_analysis.R).

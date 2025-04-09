@@ -121,9 +121,12 @@ for (i in 1:nrow(betalactam_results)) {
   }
 }
 
-betalactam_results <- betalactam_results %>% relocate (Species, .before = File.x)
+betalactam_results <- betalactam_results %>% relocate (Species,
+                                                       .before = File.x)
                                          
-betalactam_result$Assembly_ID <- sapply(strsplit(betalactam_result$File, "_"), function(x) paste(x[1], x[2], sep = "_"))
+betalactam_result$Assembly_ID <- sapply(strsplit(betalactam_result$File, "_"), 
+                                        function(x) paste(x[1], x[2], 
+                                                          sep = "_"))
 
 betalactam_result <- betalactam_result %>%
   left_join(NCBI %>% select(Assembly_ID, Antibiotic, Resistance.phenotype),
@@ -131,7 +134,8 @@ betalactam_result <- betalactam_result %>%
 #write_csv(betalactam_result, "betalactam_results.csv", col_names = TRUE)
 
 
-#Lastly, we identified and count the KO genes and elements to analyse all the atb together
+#Lastly, we identified and count the KO genes and elements to analyse all the
+#atb together
 ko_genes <- betalactam_result %>%
   group_by(Antibiotic,Resistance.phenotype, Element)%>%
   count(Gene)
@@ -156,10 +160,12 @@ resistance_counts <- NCBI %>%
 
 resistance_counts <- resistance_counts %>%
   mutate(
-    highlight = ifelse(Resistance.phenotype == "sensible" & n == 12, "highlight", "normal")
+    highlight = ifelse(Resistance.phenotype == "sensible" & n == 12, 
+                       "highlight", "normal")
   )
 
-ggplot(resistance_counts, aes(x = Resistance.phenotype, y = n, fill = Resistance.phenotype)) +
+ggplot(resistance_counts, aes(x = Resistance.phenotype, y = n, 
+                              fill = Resistance.phenotype)) +
   geom_bar(stat = "identity", width = 0.6) +
   labs(
     title = "Count of Resistance Phenotypes",
@@ -178,7 +184,8 @@ resistance_betalactams <- NCBI %>%
   group_by(Antibiotic, Resistance.phenotype) %>%
   summarise(count = n(), .groups = 'drop')
 
-ggplot(resistance_betalactams, aes(x = Resistance.phenotype, y = count, fill = Resistance.phenotype)) +
+ggplot(resistance_betalactams, aes(x = Resistance.phenotype, y = count, 
+                                   fill = Resistance.phenotype)) +
   geom_bar(stat = "identity", width = 0.6) +
   facet_wrap( ~ Antibiotic, scales = "free_y")
 labs(

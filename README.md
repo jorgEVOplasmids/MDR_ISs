@@ -16,11 +16,22 @@ To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2
 
 To compare the survival of the KPN08 samples with and without pOXA-48 (**Fig. 2B**) we used the *survival* and *survminer* R packages implemented in the **EESCRIPT**. We used a Log-Rank test per antibiotic comparing the pOXA-48- and pOXA-48+ strains survival against the different antibiotics. We specifically used the modified Log-Rank test with the Fleming-Harrington method, which assigns larger weights to final times of the experiment.
 
+## Genomic Analysis
+### Fluctuation test
+L
+### Evolutionary rescue
+
+### Community
+L
+
+
 ## Databases analysis
 
 ### Distribution of KOs in AMR determinants by plasmid-borne ISs
 
 To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), quality (*good*) and family (*Enterobacteriaceae*). 
+
+
 
 ### Analysis of KOs by ISs impact on AMR
 To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for all betalactams due to their clinical relevance. 

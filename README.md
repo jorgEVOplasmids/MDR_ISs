@@ -20,7 +20,7 @@ To compare the survival of the KPN08 samples with and without pOXA-48 (**Fig. 2B
 ### Fluctuation test
 L
 ### Evolutionary rescue
-
+L
 ### Community
 L
 

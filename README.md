@@ -18,11 +18,11 @@ tustus
 
 ## Databases analysis
 
-### Distribution of KOs in AMR determinants by plasmid-borne ISs
+### Distribution of KO-AMR genes by plasmid-borne ISs
 
-To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), and quality (*good*). 
+To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), and quality (*good*). We did so through FTP, using the script **DOWNLOADSCRIPT**. We then built the IS and AMR determinants local ABRicate databases using the commands specified in **ABRICATEBUILDSCRIPT**, and looped over the genomes to detect IS and partial or complete AMR determinants **ABRICATESCRIPT**.
 
-
+Then, we merged the information from the ABRicate results and identified those IS disrupting AMR genes using the R script **DBSCRIPT1**. The statistical analyses and representation of the BV-BRC analyses plots are summarized in **DBSCRIPT2**.
 
 ### Analysis of KOs by ISs impact on AMR
 To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for all betalactams due to their clinical relevance. 

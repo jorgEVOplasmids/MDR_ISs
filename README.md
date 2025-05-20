@@ -24,7 +24,7 @@ To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, 
 
 Then, we merged the information from the ABRicate results and identified those IS disrupting AMR genes using the R script **DBSCRIPT1**. The statistical analyses and representation of the BV-BRC analyses plots are summarized in **DBSCRIPT2**.
 
-### Analysis of KOs by ISs impact on AMR
+### Analysis of KOs by ISs impact on AMR phenotype
 To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for all betalactams due to their clinical relevance. 
 
 1. We downloaded the complete metadata, selecting those from the *Enterobacteriaceae* family and using the NCBI FTP to download the whole genomes. The code can be found in [Download_Genomes.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/Download_Genomes.sh).

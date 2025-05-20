@@ -18,6 +18,10 @@ To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2
 
 We assembled the reference genomes of the clinical strains ancestral genomes using hybrid assembly of ONT and Illumina data. We used Unicycler v.0.5.0 and checked the genome completeness using Bandage. Then, we annotated the assembled genomes using Bakta v.1.9.3. The commands for assembling and annotating the reference genomes can be found in the **REFSCRIPT**.
 
+### Variant calling
+
+We analyzed the mutations in the resistant colonies to diverse antibiotics isolated from fluctuation assays, high-throughput antibiotic susceptibility assays, and community assays. To perform the analysis, we used breseq v.39.0, using as input the Illumina reads of the resistant clones against the reference genome of the corresponding ancentral strain. The command used can be found in **BRESEQSCRIPT**.
+
 ## Databases analysis
 
 ### Distribution of KO-AMR genes by plasmid-borne ISs
@@ -27,7 +31,7 @@ To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, 
 Then, we merged the information from the ABRicate results and identified those IS disrupting AMR genes using the R script **DBSCRIPT1**. The statistical analyses and representation of the BV-BRC analyses plots are summarized in **DBSCRIPT2**.
 
 ### Analysis of KOs by ISs impact on AMR phenotype
-To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for all betalactams due to their clinical relevance. 
+To investigate the relationship between the disruption of AMR-related genes and their effects on resistance phenotypes, we analyzed the genomes available from the NCBI Pathogen Detection Database (https://www.ncbi.nlm.nih.gov/pathogens/ast/#). Specifically, we examined this correlation for our experimental antibiotics — Chloramphenicol, Ciprofloxacin, Colistin (and other polymyxins), Kanamycin, and Fosfomycin — as well as for all betalactams due to their clinical relevance.
 
 1. We downloaded the complete metadata, selecting those from the *Enterobacteriaceae* family and using the NCBI FTP to download the whole genomes. The code can be found in [Download_Genomes.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/Download_Genomes.sh).
 2. We filtered out inconsistent data by removing genomes without phenotypic information, genomes labeled as both Resistant and Susceptible without corresponding M.I.C. data and genomes where the Susceptible M.I.C. value was higher than the Resistant M.I.C. one. In cases with several coincidences for the same genome and phenotype, we kept only the highest M.I.C. values for Susceptible data and the lowest for Resistant data. The code can be found in [General_Filtering.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/General_Filtering.sh).

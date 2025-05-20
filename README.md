@@ -14,7 +14,9 @@ To analyze whether the strains analyzed during the evolutionary rescue (**Fig. 2
 
 ## Genomic Analysis
 
+### Assembly of reference genomes
 
+We assembled the reference genomes of the clinical strains ancestral genomes using hybrid assembly of ONT and Illumina data. We used Unicycler v.0.5.0 and checked the genome completeness using Bandage. Then, we annotated the assembled genomes using Bakta v.1.9.3. The commands for assembling and annotating the reference genomes can be found in the **REFSCRIPT**.
 
 ## Databases analysis
 

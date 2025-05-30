@@ -536,3 +536,26 @@ statistics <- results$stats_summary
 distribution <- results$distribution_summary
 write.csv(distribution, "complete_distirbution_KO.csv", row.names = FALSE)
 
+
+## Calculate Fold Change of KO detected 
+total_frequencies4 <- total_frequencies3 %>%
+  complete(Antibiotic, 
+           Phenotype = c("resistant", "susceptible"), 
+           fill = list(frequency = 0))
+
+total_frequencies4 <- total_frequencies4[-c(3)] 
+
+fold_data <-total_frequencies4%>%
+  group_by(Antibiotic) %>%
+  summarise(
+    resistant_freq = frequency[Phenotype == "resistant"],
+    susceptible_freq = frequency[Phenotype == "susceptible"],
+    fold_change = resistant_freq / susceptible_freq,
+    .groups = 'drop'
+  ) %>%
+  select(Antibiotic, fold_change)
+
+mean(fold_data$fold_change[is.finite(fold_data$fold_change)])
+median(fold_data$fold_change[is.finite(fold_data$fold_change)])
+sd(fold_data$fold_change[is.finite(fold_data$fold_change)])
+

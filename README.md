@@ -10,7 +10,7 @@ We assembled the reference genomes of the clinical strains ancestral genomes usi
 
 ### Variant calling
 
-We analyzed the mutations in the resistant colonies to diverse antibiotics isolated from fluctuation assays, high-throughput antibiotic susceptibility assays, and community assays. To perform the analysis, we used breseq v.39.0, using as input the Illumina reads of the resistant clones against the reference genome of the corresponding ancentral strain. The commands used can be found in **BRESEQSCRIPT**.
+We analyzed the mutations in the resistant colonies to diverse antibiotics isolated from fluctuation assays, high-throughput antibiotic susceptibility assays, and community assays. To perform the analysis, we used breseq v.39.0, using as input the Illumina reads of the resistant clones against the reference genome of the corresponding ancentral strain. The commands used can be found in [breseq_loop.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Genome_Analysis/breseq_loop.sh).
 
 ## Databases analysis
 

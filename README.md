@@ -6,7 +6,7 @@ This repository summarizes the code developed for the work **"Plasmids promote m
 
 ### Assembly of reference genomes
 
-We assembled the reference genomes of the clinical strains ancestral genomes using hybrid assembly of ONT and Illumina data. We used Unicycler v.0.5.0 and checked the genome completeness using Bandage. Then, we annotated the assembled genomes using Bakta v.1.9.3. The commands for assembling and annotating the reference genomes can be found in the **REFSCRIPT**.
+We assembled the reference genomes of the clinical strains ancestral genomes using hybrid assembly of ONT and Illumina data. We used Unicycler v.0.5.0 and checked the genome completeness using Bandage. Then, we annotated the assembled genomes using Bakta v.1.9.3. The commands for assembling and annotating the reference genomes can be found in the script [reference_assembly_and_annotation.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Genome_Analysis/reference_assembly_and_annotation.sh).
 
 ### Variant calling
 

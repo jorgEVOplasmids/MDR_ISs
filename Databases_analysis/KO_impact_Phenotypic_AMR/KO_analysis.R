@@ -475,14 +475,14 @@ write.csv(distribution, "complete_distribution_KO.csv", row.names = FALSE)
 
 
 ## Calculate Fold of databases 
-total_frequencies4 <- total_frequencies3 %>%
+total_frequencies3 <- total_frequencies2 %>%
   complete(Antibiotic, 
            Phenotype = c("resistant", "susceptible"), 
            fill = list(frequency = 0))
 
-total_frequencies4 <- total_frequencies4[-c(3)] 
+total_frequencies4 <- total_frequencies3[-c(3)] 
 
-fold_data <-total_frequencies4%>%
+fold_data <-total_frequencies3%>%
   group_by(Antibiotic) %>%
   summarise(
     resistant_freq = frequency[Phenotype == "resistant"],

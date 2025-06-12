@@ -1,4 +1,4 @@
-setwd("~/IS/Databases/NCBI/")
+setwd("/home/predatoma/Desktop/PBE/IS/Databases/NCBI/")
 #library(xlsx)
 library(tidyr)
 library(dplyr)
@@ -12,18 +12,19 @@ library(scales)
 library(patchwork)
 library(ggh4x)
 library(ggbreak)
-
+library(forcats)
 
 #Upload the databases for each ATB and combine them 
 chloram_NCBI <- read.csv("Chloram/final_chloram_NCBI.csv")
 cipro_NCBI <- read.csv("Cipro/final_cipro_NCBI.csv")
+cipro_NCBI <- cipro_NCBI[-c(19,20,21)]
 polymyxin_NCBI <- read.csv("Polymyxins/final_polymyxins_NCBI.csv")
 kana_NCBI <- read.csv("Kana/final_kana_NCBI.csv")
 lactams_NCBI <- read.csv("Betalactams/final_lactams_NCBI.csv")
 
 
 #NCBI_DATABASE <- rbind(chloram_NCBI, kana_NCBI, cipro_NCBI, chloram_NCBI,
-                       #lactams_NCBI, polymyxin_NCBI)
+#lactams_NCBI, polymyxin_NCBI)
 #write.csv(NCBI_DATABASE, "NCBI_complete_database.csv", row.names = FALSE)
 
 
@@ -75,7 +76,7 @@ general_distribution_NCBI <-  rbind(chloram_distribution$antibiotic_sum,
                                     polymyxin_distribution$antibiotic_sum)
 
 #write.csv(general_distribution_NCBI, "distribution_NCBI_database.csv", 
-           #row.names = FALSE)
+#row.names = FALSE)
 
 rm(chloram_distribution, cipro_distribution, kana_distribution, 
    betalactams_distribution, polymyxin_distribution)
@@ -106,25 +107,22 @@ elements <- c("Drug_and_biocide_ABC_efflux_pumps",
 
 #Now, we upload the results from our previous analysis (both the raw results and 
 # the elements counts) and filter them using the relevant targets
-
 targets_chloram <- read.csv("Chloram/target_chloram.csv")
 targets_chloram$atb <- "chloramphenicol"
 targets_chloram <- targets_chloram[targets_chloram$Element %in% elements, ]
-
 
 
 targets_cipro <- read_xlsx("Cipro/target_cipro.xlsx", sheet = 2)
 targets_cipro$atb <- "ciprofloxacin"
 targets_cipro <- targets_cipro[targets_cipro$Element %in% elements,]
 
-  
+
 targets_colistin <- read.csv("Polymyxins/target_poly.csv")
 targets_colistin <- targets_colistin[targets_colistin$Element == "Colistin-resistant_mutant", ]
-  
+
 targets_kana <- read.csv("Kana/targets_kanamycin.csv")
 targets_kana <- targets_kana[targets_kana$Element %in% elements, ]
 targets_kana$atb<- "kanamycin"
-
 
 targets_betalac <- read.csv("Betalactams/target_betalactams.csv")
 targets_betalac <- targets_betalac[targets_betalac$Element %in% elements, ]
@@ -134,8 +132,8 @@ combined_atb <- rbind(targets_cipro, targets_chloram, targets_kana,
                       targets_colistin, targets_betalac)
 
 rm(targets_cipro, targets_chloram, targets_colistin, targets_kana, targets_betalac)
+rm(elements)
 #write.csv(combined_atb, "all_relevant_targets.csv")
-
 
 ################################################################################
 
@@ -165,7 +163,6 @@ total_frequencies <- combined_atb %>%
   ungroup() %>%   
   select(Antibiotic, Phenotype, Element, Gene, N, frequency)
 
-#For better analysing the antibiotics, we add the antibiotic family and group them
 total_frequencies$Family <- NA
 total_frequencies <- total_frequencies %>%
   mutate(Family = case_when(
@@ -202,187 +199,127 @@ total_frequencies <- total_frequencies %>%
   ))
 
 
-# We format the genes to be italic and plot the frequency per gene and condition
-format_gene_name <- function(gene) {
-  first_three <- substr(gene, 1, 3)
-  rest <- substr(gene, 4, nchar(gene))
-  return(paste0(tolower(first_three), rest))
-}
-
-gene_labels <- setNames(
-  paste0("italic('", sapply(unique(total_frequencies$Gene), format_gene_name), "')"),
-  unique(total_frequencies$Gene)
-)
-
-ggplot(total_frequencies, aes(x = Phenotype, y = frequency, fill = Gene)) +
-  geom_bar(stat = "identity", position = "stack") +
-  facet_wrap(~ Antibiotic, scales = "free_y") +
-  scale_y_continuous(labels = scales::percent) +
-  scale_fill_discrete(labels = parse(text = gene_labels)) + 
-  labs(
-    title = "Gene Frequency by Phenotype",
-    x = "Phenotype",
-    y = "Frequency",
-    fill = "Gene"
-  ) +
-  theme_bw(base_size = 22) +
-  theme(
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid = element_blank(),
-    panel.grid.minor = element_blank(), 
-  )
-
-#Sum up the frequencies so we dont see a break and set an order
-total_frequencies2 <- total_frequencies %>% 
-  group_by(Family, Phenotype, Element) %>%
-  summarise(frequency = sum(frequency), .groups = 'drop')
-
-total_frequencies2$General_Family <- NA
-total_frequencies2 <- total_frequencies2 %>%
-  mutate(General_Family = case_when(
-    Family == "Cephalosphorin 1 generation" ~ "Cephalosphorin",
-    Family == "Cephalosphorin 2 generation" ~ "Cephalosphorin",
-    Family == "Cephalosphorin 3 generation" ~ "Cephalosphorin",
-    Family == "Cephalosphorin 4 generation" ~ "Cephalosphorin",
-    Family == "Cephalosphorin 5 generation" ~ "Cephalosphorin",
-    Family == "Aminoglycosides" ~ "Aminoglycosides",
-    Family == "Carbapenem" ~ "Carbapenem", 
-    Family == "Monobactam" ~ "Monobactam", 
-    Family == "Fluoroquinolones" ~ "Fluoroquinolones", 
-    Family == "Chloramphenicol" ~ "Chloramphenicol", 
-    Family == "Penicillin" ~ "Penicillin", 
-    Family == "Polymyxins" ~ "Polymyxins"
-  ))
-
-
-# We plot the frequency per element and condition firstly with the genes in the
-#y axis and all atb together (grouping by phenotype) and secondly with the ATB 
-#separated and filling the elements
-
-ggplot(total_frequencies2, aes(x = frequency, y = Element, color = General_Family, 
-                               fill = General_Family)) +
-  geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
-  facet_grid(~ Phenotype, scales = "free_y") +
-  scale_x_continuous(labels = scales::percent) +
-  labs(
-    title = "Broken Elements per Antibiotic Family",
-    x = "Frequency",
-    y = "Element",
-    fill = "General_Family"
-  ) +
-  theme_bw(base_size = 22) +
-  theme(
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid = element_blank(),
-    panel.grid.minor = element_blank(), 
-  )
-
-
-ggplot(total_frequencies, aes(x =  Phenotype, y = frequency, fill = Element)) +
-  geom_bar(stat = "identity", position = "stack") +
-  scale_y_continuous(labels = scales::percent) +
-  facet_wrap(~ Antibiotic, scales = "free_y") +
-  labs(
-    title = "Element Frequency by Phenotype",
-    x = "Phenotype",
-    y = "Frequency",
-    fill = "Element"
-  ) +
-  theme_bw(base_size = 22) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.grid = element_blank(),
-    panel.grid.minor = element_blank(),
-    #legend.position = "bottom",
-    legend.key.size = unit(0.1, "lines"),  
-    legend.text = element_text(size = 8),
-    legend.title = element_text(size = 10)  
-    +
-      guides(fill = guide_legend(ncol = 1)) 
-  )
-
-
-#
-
 ## Reorder by antibiotic family
 desired_order <- c("Aminoglycosides", "Chloramphenicol", "Fluoroquinolones", 
                    "Polymyxins", "Cephalosphorin 1 generation",
                    "Cephalosphorin 2 generation", "Cephalosphorin 3 generation",
                    "Cephalosphorin 4 generation","Cephalosphorin 5 generation",
-                   "Carbapenem", "Monobactam", "Penicillin" 
-                   )
+                   "Carbapenem", "Monobactam", "Penicillin" )
 
-total_frequencies3 <- total_frequencies %>% 
+total_frequencies2 <- total_frequencies %>% 
   group_by(Family, Antibiotic, Phenotype) %>%
   summarise(frequency = sum(frequency), .groups = 'drop')
 
 
-total_frequencies3$Family <- factor(total_frequencies3$Family, 
+total_frequencies2$Family <- factor(total_frequencies2$Family, 
                                     levels = desired_order)
 
-ggplot(total_frequencies3, aes(x = Phenotype, y = frequency, fill = Phenotype)) +
-  geom_bar(stat = "identity", position = "stack") +
-  scale_y_continuous(
-    labels = scales::percent,
-    expand = expansion(mult = c(0.1, 0.))  
-  ) +
-  facet_nested_wrap(Family ~ Antibiotic, scales = "free_y", ncol = 5) +
-  labs(
-    title = "Relevant knock-out genes frequency per phenotype",
-    x = "Phenotype",
-    y = "Frequency (%)",
-    fill = "Antibiotic"
-  ) +
-  theme_bw(base_size = 15) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.grid = element_blank(),
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    legend.title = element_text(face = "bold"),
-    panel.grid.minor = element_blank()
-  )
 
-
-# Now we plot only our experimental atb and the 10 betalactams with the higher 
-#number of samples (covering all the sublcases of the betalactams: Cephalosporin,
-# Penicillins, Carbapenems and Monobactams).
-
-atb <- c( "chloramphenicol", "ciprofloxacin", "chloramphenicol", "kanamycin",
-          "colistin", "polymyxin B", "amoxicillin-clavulanic acid", 
-          "ceftriaxone","ampicillin", "meropenem", "ceftiofur", "ceftazidime", 
-          "piperacillin-tazobactam","cefepime", "ertapenem", "imipenem", 
-          "cefazolin", "cefoxitin", "aztreonam","cefotaxime", 
-          "ampicillin-sulbactam")
-
-
-total_frequencies2 <- total_frequencies[total_frequencies$Antibiotic %in% atb, ]
-desired_order2 <- c("Aminoglycosides", "Chloramphenicol", "Fluoroquinolones", 
-                   "Polymyxins", "Cephalosphorin 1 generation",
-                   "Cephalosphorin 2 generation", "Cephalosphorin 3 generation",
-                   "Cephalosphorin 4 generation","Penicillin","Carbapenem", 
-                    "Monobactam")
+#PIRAMID OF VALUES
+total_frequencies2$frequency<- ifelse(total_frequencies2$Phenotype == "susceptible", 
+                                      total_frequencies2$frequency * -1, 
+                                      total_frequencies2$frequency)
 
 total_frequencies2$Family <- factor(total_frequencies2$Family, 
-                                   levels = desired_order2)
-
-ggplot(total_frequencies2,  aes(x =  Phenotype, y = frequency, fill = Phenotype)) +
-  geom_bar(stat = "identity", position = "stack") +
-  scale_y_continuous(labels = scales::percent) +
-  facet_wrap( Family ~ Antibiotic, scales = "free_y", ncol = 5) +
+                                    levels = desired_order)
+total_frequencies2 %>%
+  mutate(Family = factor(Family, levels = rev(sort(unique(Family))))) %>%
+  arrange(Family, Antibiotic) %>%
+  mutate(Antibiotic = factor(Antibiotic, levels = unique(Antibiotic))) %>%
+  ggplot(aes(y = Antibiotic, x = frequency, fill = Phenotype, colour = Phenotype)) +
+  geom_bar(stat = "identity", width = 1, alpha = 0.5) +
   labs(
-    title = "Relevant knock-out genes frequency per phenotype",
-    x = "Phenotype",
-    y = "Frequency (%)",
-    fill = "Antibiotic"
-  ) +
-  theme_bw(base_size = 22) +
+    title = "KO Gene Frequency Pyramid by Antiobiotic",
+    x = "Frequency",
+    y = "Antibiotic"
+  )+
+  theme_bw(base_size = 22) + 
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
     panel.grid = element_blank(),
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    legend.title = element_text(face = "bold"),
-    panel.grid.minor = element_blank()
-  )
+    legend.title = element_text(face = "bold")
+  ) 
+
+
+### New figure databases: el 100% tienen los genes rotos, cuanto % es resistente
+combined_atb2 <- combined_atb %>%
+  group_by(Antibiotic, Phenotype) %>%
+  summarise(Total_N = sum(N, na.rm = TRUE), .groups = "drop")
+
+combined_atb2 <- combined_atb2 %>%
+  complete(Antibiotic, Phenotype = c("resistant", "susceptible"), fill = list(Total_N = 0))
+
+combined_atb2 <- combined_atb2 %>%
+  group_by(Antibiotic) %>%
+  mutate(Percentage_Broken_Resistant = (Total_N / sum(Total_N)) * 100) %>%
+  ungroup()
+
+broken_resistant <- combined_atb2 %>%
+  filter(Phenotype == "resistant") %>%
+  select(Antibiotic, Total_N, Percentage_Broken_Resistant)
+
+
+resistant_from_general <- general_distribution_NCBI %>%
+  group_by(Antibiotic) %>%
+  mutate(Resistant_Percentage = (resistant/(resistant + susceptible)) * 100) %>%
+  ungroup()
+
+
+Resistant_Info <- merge(resistant_from_general, broken_resistant, 
+                        by = "Antibiotic", all = TRUE)
+
+
+Resistant_Info <- Resistant_Info %>%
+  mutate(Family = case_when(
+    Antibiotic == "ciprofloxacin" ~ "Fluoroquinolones",
+    Antibiotic == "chloramphenicol" ~ "Chloramphenicol",
+    Antibiotic == "kanamycin" ~ "Aminoglycosides",
+    Antibiotic == "colistin" ~ "Polymyxins",
+    Antibiotic == "polymyxin B" ~ "Polymyxins",
+    Antibiotic == "amoxicillin-clavulanic acid" ~ "Penicillin",
+    Antibiotic == "ampicillin" ~ "Penicillin",
+    Antibiotic == "ampicillin-sulbactam" ~ "Penicillin",
+    Antibiotic == "aztreonam" ~ "Monobactam",
+    Antibiotic == "cefazolin" ~ "Cephalosphorin 1 generation",
+    Antibiotic == "cefepime" ~ "Cephalosphorin 4 generation",
+    Antibiotic == "cefotaxime" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "cefotaxime-clavulanic acid" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "cefotetan" ~ "Cephalosphorin 2 generation",
+    Antibiotic == "cefoxitin" ~ "Cephalosphorin 2 generation",
+    Antibiotic == "cefpodoxime" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "ceftazidime" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "ceftazidime-avibactam" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "ceftazidime-clavulanic acid" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "ceftiofur" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "ceftolozane-tazobactam" ~ "Cephalosphorin 5 generation",
+    Antibiotic == "ceftriaxone" ~ "Cephalosphorin 3 generation",
+    Antibiotic == "cefuroxime" ~ "Cephalosphorin 2 generation",
+    Antibiotic == "cephalothin" ~ "Cephalosphorin 1 generation",
+    Antibiotic == "doripenem" ~ "Carbapenem",
+    Antibiotic == "ertapenem" ~ "Carbapenem",
+    Antibiotic == "imipenem" ~ "Carbapenem",
+    Antibiotic == "meropenem" ~ "Carbapenem",
+    Antibiotic == "piperacillin-tazobactam" ~ "Penicillin"
+  ))
+
+Resistant_Info <- Resistant_Info[!is.na(Resistant_Info$Family), ]
+Resistant_Info$Antibiotic <- factor(Resistant_Info$Antibiotic, 
+                                    levels = Resistant_Info$Antibiotic[order(match(Resistant_Info$Family, desired_order))])
+
+
+ggplot(Resistant_Info, aes(y = Antibiotic)) +
+  geom_col(aes(x = Percentage_Broken_Resistant), 
+           fill = "#c67e8dcc", alpha = 0.8, width = 0.8) +
+  geom_point(aes(x = Resistant_Percentage), color = "#006666", size = 2.5) +
+  scale_y_discrete(limits = rev) +
+  labs(title = "Antibiotic Resistance: Total vs Broken Resistant Strains",
+       x = "% of Resistant Strains",
+       y = "Antibiotic") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        axis.text.y = element_text(size = 10),
+        axis.text.x = element_text(size = 10),
+        panel.grid = element_blank())
 
 
 ### STATISTICAL ANALYSIS
@@ -518,7 +455,7 @@ run_fisher_tests <- function(general_df, combined_df) {
     summary$Adjusted_P_Value <- p.adjust(summary$P_Value, method = "BH")
     summary$Significant_Adjusted <- summary$Adjusted_P_Value < 0.05
     
-  
+    
     full_summary <- do.call(rbind, summary_data_list)
     cat("\nFisher's Exact Tests:\n")
     print(summary)
@@ -534,10 +471,10 @@ results <- run_fisher_tests(general_distribution_NCBI, combined_atb)
 statistics <- results$stats_summary
 #write.csv(statistics, "fisher_test_results.csv", row.names = FALSE)
 distribution <- results$distribution_summary
-write.csv(distribution, "complete_distirbution_KO.csv", row.names = FALSE)
+write.csv(distribution, "complete_distribution_KO.csv", row.names = FALSE)
 
 
-## Calculate Fold Change of KO detected 
+## Calculate Fold of databases 
 total_frequencies4 <- total_frequencies3 %>%
   complete(Antibiotic, 
            Phenotype = c("resistant", "susceptible"), 
@@ -555,7 +492,6 @@ fold_data <-total_frequencies4%>%
   ) %>%
   select(Antibiotic, fold_change)
 
-mean(fold_data$fold_change[is.finite(fold_data$fold_change)])
-median(fold_data$fold_change[is.finite(fold_data$fold_change)])
-sd(fold_data$fold_change[is.finite(fold_data$fold_change)])
-
+media <- mean(fold_data$fold_change[is.finite(fold_data$fold_change)])
+mediana <- median(fold_data$fold_change[is.finite(fold_data$fold_change)])
+ds <- sd(fold_data$fold_change[is.finite(fold_data$fold_change)])

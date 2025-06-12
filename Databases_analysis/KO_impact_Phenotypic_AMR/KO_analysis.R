@@ -479,7 +479,7 @@ total_frequencies3 <- total_frequencies2 %>%
            Phenotype = c("resistant", "susceptible"), 
            fill = list(frequency = 0))
 
-total_frequencies4 <- total_frequencies3[-c(3)] 
+total_frequencies3 <- total_frequencies3[-c(3)] 
 
 fold_data <-total_frequencies3%>%
   group_by(Antibiotic) %>%

@@ -194,8 +194,7 @@ total_frequencies <- total_frequencies %>%
     Antibiotic == "ertapenem" ~ "Carbapenem",
     Antibiotic == "imipenem" ~ "Carbapenem",
     Antibiotic == "meropenem" ~ "Carbapenem",
-    Antibiotic == "piperacillin-tazobactam" ~ "Penicillin",
-    Antibiotic == "ticarcillin-clavulanic acid" ~ "Penicillin"
+    Antibiotic == "piperacillin-tazobactam" ~ "Penicillin"
   ))
 
 

@@ -1,6 +1,6 @@
 # MDR_ISs
 
-This repository summarizes the code developed for the work **"Plasmids promote multidrug resistance in bacteria through IS-mediated gene inactivation"**.
+This repository summarizes the code developed for the work **"Plasmids promote antimicrobial resistance through Insertion Sequence-mediated gene inactivation"**.
 
 ## Genomic Analysis
 
@@ -16,7 +16,7 @@ We analyzed the mutations in the resistant colonies to diverse antibiotics isola
 
 ### Distribution of KO-AMR genes by plasmid-borne ISs
 
-To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), and quality (*good*). We did so through FTP, and then built the plasmid, IS and AMR determinants local ABRicate databases using the commands specified in **ABRICATEBUILDDB**, and looped over the genomes to detect IS and partial or complete AMR determinants [BVBRC_parsing.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/AMR_determinant_distribution/BVBRC_parsing.sh).
+To analyze the distribution of KOs in AMR related genes by plasmid-encoded ISs, we analyzed the genomes available at the [BV-BRC](https://www.bv-brc.org/). To retrieve these, we downloaded the complete metadata of the genomes available from the specific [database section](https://www.bv-brc.org/view/Bacteria/2#view_tab=genomes), filtering by genome completeness (*complete genomes*), and quality (*good*). We did so through FTP, and then built the plasmid, IS and AMR determinants local ABRicate databases (using the command *abricate --setupdb*). Then, we looped over the genomes to detect IS and partial or complete AMR determinants using the code specified in [BVBRC_parsing.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/AMR_determinant_distribution/BVBRC_parsing.sh).
 
 Then, we merged the information from the ABRicate results and identified those IS disrupting AMR genes using the R script **DBSCRIPT1**. The statistical analyses and representation of the BV-BRC analyses plots are summarized in **DBSCRIPT2**.
 

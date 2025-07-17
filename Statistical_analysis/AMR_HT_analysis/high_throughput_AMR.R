@@ -517,3 +517,101 @@ ggarrange(logitmodelplot_K253_col, logitmodelplot_K253_cipro,
 
 #write_xlsx(model_sum, "summary_GLM_stats.xlsx")
 
+# Load data
+
+MICs_data <- read.xlsx("MICs_data.xlsx", sheetIndex = 1)
+MICs_data$Status_binary <- ifelse(MICs_data$Status == "L", 1, 0) # Add binary col 1 <- alive; 0 <- dead
+
+result <- MICs_data %>%
+  group_by(pf_name, Concentration, Antibiotic, Day) %>%
+  summarise(L_count = sum(Status == "L", na.rm = TRUE), .groups = "drop")
+
+result <- as.data.frame(result)
+
+# Create the bar plot
+
+# Add a dummy point for RIF
+result <- result %>%
+  bind_rows(data.frame(Concentration = 128,  # A new concentration value
+                       pf_name = "KPN08",
+                       Antibiotic = "RIF",
+                       Day = 3,
+                       L_count = 0  # Zero value for the dummy point
+  ))
+
+result <- result %>%
+  bind_rows(data.frame(Concentration = 128,  # A new concentration value
+                       pf_name = "KPN08p",
+                       Antibiotic = "RIF",
+                       Day = 3,
+                       L_count = 0  # Zero value for the dummy point
+  ))
+
+result <- result %>%
+  bind_rows(data.frame(Concentration = 128,  # A new concentration value
+                       pf_name = "KPN16",
+                       Antibiotic = "RIF",
+                       Day = 3,
+                       L_count = 0  # Zero value for the dummy point
+  ))
+
+result <- result %>%
+  bind_rows(data.frame(Concentration = 128,  # A new concentration value
+                       pf_name = "KPN16p",
+                       Antibiotic = "RIF",
+                       Day = 3,
+                       L_count = 0  # Zero value for the dummy point
+  ))
+
+result
+
+#write.xlsx(result, "results_MICs.xlsx")
+
+# Plot the barplot shown in Fig. 2A
+
+result <- read.xlsx("results_with_MICs.xlsx", sheetIndex = 1)
+
+two_col_palette <-  c("#BBBBBB", "#AA3377")
+
+KPN08_CMIs <- result %>%
+  filter(pf_name == "KPN08" | pf_name == "KPN08p") %>%
+  ggplot(aes(x = factor(MIC, levels = c("0.5xMIC", "MIC", "2xMIC", "4xMIC")), y = L_count, fill = factor(pf_name, levels = c("KPN08", "KPN08p")), col = factor(pf_name, levels = c("KPN08", "KPN08p")))) +
+  geom_bar(
+    stat = "identity", 
+    position = position_dodge(width = 0.95), 
+    alpha = 0.85, 
+    size = 1.1) +
+  theme_bw(base_size = 20) +
+  ylim(0,50)+
+  ylab("Surviving samples") +
+  xlab("Concentration (μg/mL)")+
+  facet_wrap(~ factor(Antibiotic, levels = c("COL", "CIP", "CMP", "RIF")), scales = "free_x", nrow = 1) +
+  scale_fill_manual(values = two_col_palette) +
+  scale_color_manual(values = two_col_palette) +
+  theme(panel.background = element_blank(), panel.grid = element_blank(),
+        #strip.text.x = element_blank(),
+        #axis.title.x = element_blank(),
+        legend.position = "none",
+        strip.background = element_blank()); KPN08_CMIs
+
+KPN16_CMIs <- result %>%
+  filter(pf_name == "KPN16" | pf_name == "KPN16p") %>%
+  ggplot(aes(x =factor(MIC, levels = c("0.5xMIC", "MIC", "2xMIC", "4xMIC")), y = L_count, fill = factor(pf_name, levels = c("KPN16", "KPN16p")), col = factor(pf_name, levels = c("KPN16", "KPN16p")))) +
+  geom_bar(
+    stat = "identity", 
+    position = position_dodge(width = 0.95), 
+    alpha = 0.85, 
+    size = 1.1) +
+  theme_bw(base_size = 20) +
+  ylim(0,50)+
+  ylab("Surviving samples") +
+  xlab("Concentration (μg/mL)")+
+  facet_wrap(~ factor(Antibiotic, levels = c("COL", "CIP", "KAN", "RIF")), scales = "free_x", nrow = 1) +
+  scale_fill_manual(values = two_col_palette) +
+  scale_color_manual(values = two_col_palette) +
+  theme(panel.background = element_blank(), panel.grid = element_blank(),
+        #strip.text.x = element_blank(),
+        legend.position = "none",
+        strip.background = element_blank()); KPN16_CMIs
+
+

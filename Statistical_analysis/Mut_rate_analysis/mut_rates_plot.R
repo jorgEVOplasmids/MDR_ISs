@@ -11,14 +11,15 @@ library(ggpubr)
 library(car)
 
 # Set color palette
-
 two_col_palette <- c("#BBBBBB", "#AA3377", "#286995")
 
+# Load data, stored in the results sheet of the supplementary table 2
 table_mut_rates <- read.xlsx("supplementary_table_2.xlsx", sheetName = "Results")
 
+# Reorder table to plot as shown in the manuscript order
 table_mut_rates$Strain <- factor(table_mut_rates$Strain, levels = c("KPN01", "KPN01p", "n1", "KPN10", "KPN10p", "n2", "KPN13", "KPN13p", "n3", "KPN16", "KPN16p", "n4", "KPN08", "KPN08p", "KPN08pΔΔIS1"))
 
-# Plot
+# Plot Colistin results
 
 COLPLOT <- table_mut_rates %>%
   filter(Antibiotic == "COL") %>%
@@ -75,7 +76,7 @@ COLPLOT <- table_mut_rates %>%
     axis.text.x = element_text(angle = 45, hjust = 1)
   )
 
-
+# Plot Rifampicin results
 RIFPLOT <- table_mut_rates %>%
   filter(Antibiotic == "RIF") %>%
   ggplot(aes(

@@ -8,7 +8,7 @@ This repository summarizes the code developed for the work **"Plasmids promote a
 
 To analyze the phenotypic resistant mutation rate of the diverse *Klebsiella pneumoniae* strains tested in the project , we used the R package RSalvador, developed by [Qi Zheng](https://academic.oup.com/g3journal/article/7/12/3849/6027424). We wrote the R script [RSalvador_COL_RIF_mutrate.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/Mut_rate_analysis/RSalvador_COL_RIF_mutrate.R) to calculate the mutation rate, and later compare between each version (pOXA-48- *vs* pOXA-48+) per strain using maximum likelihood ratio tests, adjusting by Bonferroni-Holm. We followed the same reasoning for comparing the strain containing the IS1-less pOXA-48 (pOXA-48ΔΔIS1). The results of these analyses are shown in **Fig. 1B** and **S. Fig. 1**, summarized in **S. Table 2** and can be plotted using the R script [mut_rates_plot.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/Mut_rate_analysis/mut_rates_plot.R).
 
-### Generalized Linear Model of survival during high-throughput AMR testing
+### High-throughput AMR analysis
 
 To analyze whether the strains analyzed during the high-throughput antimicrobial susceptibility assays (**Fig. 2A**) survived better when carrying pOXA-48 against a wide range of antibiotics, we built a logistic regression model for each antibiotic and strain. We used the *glm* R function implemented in the [high_throughput_AMR.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/AMR_HT_analysis/high_throughput_AMR.R) script to predict the survival probability and compare between genotypes, which also includes the code to plot the inset model plots shown in **Fig. 2A**.
 

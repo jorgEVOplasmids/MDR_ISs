@@ -39,3 +39,7 @@ To investigate the relationship between the disruption of AMR-related genes and 
 4. With the results of the ISs, the genes in the Megares database (plus our experimental targets) and the main database, we determined if there was a coincidence in a broken gene with an adjacent IS. In order to be considered a broken gene the `%Coverage` must be under 100%.  We ran this code for every antibiotic individually and then we compiled the result of the targets (both the gene per se and the `Element` or family in which is included). The code can be found in [Main_analysis.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/Main_Analysis.R).
 5. Finally, we performed Fisher's test for all antibiotics (with more than 100 samples and more than 5 samples per phenotypic condition) to determine whether or not there is a significant relationship between the phenotype and the presence of KO AMR-related genes. The code can be found in [KO_analysis.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/KO_analysis.R).
 
+## Computational model of plasmid invasion and IS-mediated AMR evolution
+
+The code for the developement of the computational model included in the last section of the manuscript results can be found as a Jupyter notebook in **CODEMODEL**. 
+

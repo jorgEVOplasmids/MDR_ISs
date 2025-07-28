@@ -2,7 +2,7 @@
 
 This repository summarizes the code developed for the work **"Plasmids promote antimicrobial resistance through Insertion Sequence-mediated gene inactivation"**.
 
-## Statistical analysis
+## Statistical analyses
 
 ### Phenotypic resistant mutation rate analysis
 
@@ -12,7 +12,7 @@ To analyze the phenotypic resistant mutation rate of the diverse *Klebsiella pne
 
 To analyze whether the strains analyzed during the high-throughput antimicrobial susceptibility assays (**Fig. 2A**) survived better when carrying pOXA-48 against a wide range of antibiotics, we built a logistic regression model for each antibiotic and strain. We used the *glm* R function implemented in the  [high_throughput_AMR.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/AMR_HT_analysis/high_throughput_AMR.R) script to predict the survival probability and compare between genotypes, which also includes the code to plot the inset model plots and barplots shown in **Fig. 2A**.
 
-## Genomic Analysis
+## Genomic Analyses
 
 ### Assembly of reference genomes
 
@@ -22,7 +22,7 @@ We assembled the reference genomes of the clinical strains ancestral genomes usi
 
 We analyzed the mutations in the resistant colonies to diverse antibiotics isolated from fluctuation assays, high-throughput antibiotic susceptibility assays, and community assays. To perform the analysis, we used breseq v.39.0, using as input the Illumina reads of the resistant clones against the reference genome of the corresponding ancentral strain. The commands used can be found in [breseq_loop.sh](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Genome_Analysis/breseq_loop.sh).
 
-## Databases analysis
+## Databases analyses
 
 ### Distribution of KO-AMR genes by plasmid-borne ISs
 

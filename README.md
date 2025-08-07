@@ -41,5 +41,5 @@ To investigate the relationship between the disruption of AMR-related genes and 
 
 ## Computational model of plasmid invasion and IS-mediated AMR evolution
 
-The code for the developement of the computational model included in the last section of the manuscript results can be found as Jupyter notebooks in the [Computational_model](https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model) folder. Further information for each script can be found in the [README]() file. 
+The code for the developement of the computational model included in the last section of the manuscript results can be found as Jupyter notebooks in the [Computational_model](https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model) folder. Further information for each script can be found in the [README](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Computational_model/READ.me) file. 
 

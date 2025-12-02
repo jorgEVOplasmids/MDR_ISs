@@ -2,6 +2,8 @@
 
 This repository summarizes the code developed for the work **"Plasmids promote antimicrobial resistance through Insertion Sequence-mediated gene inactivation"**.
 
+*The sequences generated for the development of this project can be found under the Bioproject ID PRJNA1294581.*
+
 ## Statistical analyses
 
 ### Phenotypic resistant mutation rate analysis

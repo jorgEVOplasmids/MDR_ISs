@@ -1488,3 +1488,75 @@ fisher_results <- fisher_results %>%
 fisher_results_filtered <- fisher_results %>% filter(Replicon %in% long_replicon_is$Replicon, IS.element %in% long_replicon_is$IS.element)
 
 #write.xlsx(fisher_results_filtered, "fisher_results_filtered.xlsx")
+
+### The following lines include the code to calculate the correlation between the number of plasmids and number of IS copies per genome
+
+# These plot the correlation per species including the p-value
+
+nIS_nplasmids_correlation %>%
+  filter(Species %in% top_species,
+         Species != "Mycobacterium tuberculosis",
+         Species != "Bordetella pertussis",
+         Species != "Streptococcus pneumoniae",
+         Species != "Streptococcus pyogenes") %>%
+  ggplot(aes(y = total_ISs, x = Plasmids, col = Family, fill = Family)) +
+  xlim(0,5)+
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  stat_cor(label.y = 20, col = "black")+
+  geom_smooth(method = "lm", size = 1.5) +
+  xlab("#Plasmids") +
+  ylab("#ISs per genome") +
+  theme_bw(base_size = 14) +
+  facet_wrap(~Species, scale = "free_y", ncol = 6) +
+  theme(panel.background = element_blank(),
+        legend.position = "bottom",
+        panel.grid = element_blank(),
+        strip.text = element_text(face = "italic"),
+        strip.background = element_blank())
+
+nIS_nplasmids_correlation %>%
+  filter(Species %in% top_species,
+         Species != "Mycobacterium tuberculosis",
+         Species != "Bordetella pertussis",
+         Species != "Streptococcus pneumoniae",
+         Species != "Streptococcus pyogenes") %>%
+  ggplot(aes(y = n_Chromosome, x = Plasmids, col = Family, fill = Family)) +
+  xlim(0,5)+
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  stat_cor(label.y = 20, col = "black")+
+  geom_smooth(method = "lm", size = 1.5) +
+  xlab("#Plasmids") +
+  ylab("#ISs per genome (only chromosome)") +
+  theme_bw(base_size = 14) +
+  facet_wrap(~Species, scale = "free_y", ncol = 6) +
+  theme(panel.background = element_blank(),
+        legend.position = "bottom",
+        panel.grid = element_blank(),
+        strip.text = element_text(face = "italic"),
+        strip.background = element_blank())
+
+nIS_nplasmids_correlation %>%
+  filter(Species %in% top_species,
+         Species != "Mycobacterium tuberculosis",
+         Species != "Bordetella pertussis",
+         Species != "Streptococcus pneumoniae",
+         Species != "Streptococcus pyogenes") %>%
+  ggplot(aes(y = n_Plasmid, x = Plasmids, col = Family, fill = Family)) +
+  xlim(0,5)+
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  stat_cor(label.y = 20, col = "black")+
+  geom_smooth(method = "lm", size = 1.5) +
+  xlab("#Plasmids") +
+  ylab("#ISs per genome (only plasmids)") +
+  theme_bw(base_size = 14) +
+  facet_wrap(~Species, scale = "free_y", ncol = 6) +
+  theme(panel.background = element_blank(),
+        legend.position = "bottom",
+        panel.grid = element_blank(),
+        strip.text = element_text(face = "italic"),
+        strip.background = element_blank())
+
+
+### Finally, we build a logistic regression model (GLM) predicting the probability of KO based on the genomic IS copies
+
+

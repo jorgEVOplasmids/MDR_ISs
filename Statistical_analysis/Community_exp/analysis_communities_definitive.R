@@ -1,6 +1,4 @@
 
-setwd("/media/jorge/acce4b86-3c48-4146-9cd1-ada046e8124b/experimental_IS1.2/community/experiment_01052025")
-
 library(xlsx)
 library(ggplot2)
 library(dplyr)
@@ -9,11 +7,11 @@ library(ggpubr)
 
 # Import sheet with main statistics
 
-communities_data <- read.xlsx("community experiment 01_05_25 segundo plaqueo_w_transconjugants.xlsx", sheetIndex = 9)
+communities_data <- read.xlsx("communites_source_data.xlsx", sheetIndex = 1)
 
 # Statistically compare the number of TCs in the whole population and the ColR population
 
-table_stats <- read.xlsx("community experiment 01_05_25 segundo plaqueo_w_transconjugants.xlsx", sheetIndex = 10)
+table_stats <- read.xlsx("communites_source_data.xlsx", sheetIndex = 2)
 
 contingency_table_CF <- data.frame(TC = c(146, 103), PF = c(19,97))
 rownames(contingency_table_CF) <- c("ColR", "Col_S")
@@ -145,9 +143,7 @@ summary(aov.community)
 
 #### Include transconjugants data
 
-setwd("/home/jorge/Documents/important_docs/paper_IS1.2/responses_reviewers/independent_conjugations")
-
-conjugation_data <- read.xlsx("conjs_limpio.xlsx", sheetIndex = 3)
+conjugation_data <- read.xlsx("communites_source_data.xlsx", sheetIndex = 3)
 
 # Now plot independent conjugation stuff keeping colour palette
 
@@ -199,3 +195,4 @@ conjugation_data %>%
     legend.position = "bottom",
     strip.background = element_blank()
   )
+

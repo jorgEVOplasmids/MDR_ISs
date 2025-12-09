@@ -16,7 +16,7 @@ To analyze whether the strains analyzed during the high-throughput antimicrobial
 
 ### Community experiment analysis
 
-To analyze the results from the community experiment we first compared the frequency of transconjugants at the end of the experiment per strain (**Fig. 4B**). Then, we compared the frequency of COL resistant mutants per population cell (**Fig. 4C**) and the transconjugant frequency between the COL resistant subpopulation and whole population per strain (**Fig. 4D**). The code to perform these analyses is found in the [analysis communities definitive.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/Community_exp/analysis_communities_definitive.R) script.
+To analyze the results from the community experiment we first compared the frequency of transconjugants at the end of the experiment per strain (**Fig. 4B**). Then, we compared the frequency of COL resistant mutants per population cell (**Fig. 4C**) and the transconjugant frequency between the COL resistant subpopulation and whole population per strain (**Fig. 4D**). We also checked the frequency of pOXA-48 transconjugants independently per strain both at 4 and 24 hours. The code to perform these analyses is found in the [analysis communities definitive.R](https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Statistical_analysis/Community_exp/analysis_communities_definitive.R) script.
 
 ## Genomic Analyses
 

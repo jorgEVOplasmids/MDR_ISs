@@ -14,6 +14,7 @@ library(forcats)
 library(ggpubr)
 library(stringr)
 library(tidyverse)
+library(broom)
 
 ######################################## Load the data ########################################
 
@@ -1491,6 +1492,29 @@ fisher_results_filtered <- fisher_results %>% filter(Replicon %in% long_replicon
 
 ### The following lines include the code to calculate the correlation between the number of plasmids and number of IS copies per genome
 
+# We'll use the metadata w replicon info dataframe to analyze the correlation between nISs and n plasmids
+
+nIS_per_genome_per_replicon <- metadata_w_replicon_IS_info %>%
+  group_by(Genome.ID, Replicon.class) %>%
+  summarise(nISs = sum(n_IS_element))
+
+n_plasmids_meta <- metadata_w_replicon_IS_info %>%
+  select(Genome.ID, Plasmids) %>%
+  unique()
+
+nIS_per_genome_wide <- nIS_per_genome_per_replicon %>%
+  pivot_wider(names_from = Replicon.class,
+              values_from = nISs,
+              names_prefix = "n_")
+
+nIS_per_genome_wide[is.na(nIS_per_genome_wide)] <- 0
+
+nIS_per_genome_wide$total_ISs <- nIS_per_genome_wide$n_Plasmid+nIS_per_genome_wide$n_Chromosome
+
+n_plasmids_meta[is.na(n_plasmids_meta)] <- 0
+
+nIS_nplasmids_correlation <- merge(n_plasmids_meta, nIS_per_genome_wide, by = "Genome.ID")
+
 # These plot the correlation per species including the p-value
 
 nIS_nplasmids_correlation %>%
@@ -1559,4 +1583,118 @@ nIS_nplasmids_correlation %>%
 
 ### Finally, we build a logistic regression model (GLM) predicting the probability of KO based on the genomic IS copies
 
+# Get n plasmids representative of 95% of the dataset
 
+data_sub <- nIS_nplasmids_correlation %>%
+  filter(Plasmids < 5)
+
+quantile(data_sub$total_ISs, probs = 0.95) # Get n IS representative of 95% of the dataset
+
+data_sub <- data_sub %>% filter(total_ISs < 116) # And get representative subset dataframe
+
+# Fit the (binomial outcome, KO == "YES" or KO == "NO") logistic regression which calculates the probability of a KO depending on the number of ISs
+model <- glm(KO == "yes" ~ total_ISs, data = data_sub, family = binomial)
+summary(model)
+
+# SPLIT BY CHROMOSOME AND PLASMIDS ISs TO CHECK RELATIVE CONTRIBUTION
+
+model_chromosome <- glm(KO == "yes" ~ n_Chromosome, data = data_sub, family = binomial)
+summary(model_chromosome)
+
+
+model_plasmid <- glm(KO == "yes" ~ n_Plasmid, data = data_sub, family = binomial)
+summary(model_plasmid)
+
+### And create dataframes with the predicted values and standard deviation to plot the GLM predicted probabilities
+
+newdata_total <- data.frame(total_ISs = seq(min(data_sub$total_ISs),
+                                            max(data_sub$total_ISs),
+                                            length.out = 200))
+pred_total <- predict(model, newdata = newdata_total, type = "link", se.fit = TRUE)
+newdata_total <- newdata_total %>%
+  mutate(
+    pred = plogis(pred_total$fit),
+    lower = plogis(pred_total$fit - 1.96 * pred_total$se.fit),
+    upper = plogis(pred_total$fit + 1.96 * pred_total$se.fit),
+    model = "Total"
+  )
+
+# Chromosome ISs
+newdata_chr <- data.frame(n_Chromosome = seq(min(data_sub$n_Chromosome),
+                                             max(data_sub$n_Chromosome),
+                                             length.out = 200))
+pred_chr <- predict(model_chromosome, newdata = newdata_chr, type = "link", se.fit = TRUE)
+newdata_chr <- newdata_chr %>%
+  mutate(
+    pred = plogis(pred_chr$fit),
+    lower = plogis(pred_chr$fit - 1.96 * pred_chr$se.fit),
+    upper = plogis(pred_chr$fit + 1.96 * pred_chr$se.fit),
+    model = "Chromosome"
+  )
+
+# Plasmid ISs
+newdata_plasmid <- data.frame(n_Plasmid = seq(min(data_sub$n_Plasmid),
+                                              max(data_sub$n_Plasmid),
+                                              length.out = 200))
+pred_plasmid <- predict(model_plasmid, newdata = newdata_plasmid, type = "link", se.fit = TRUE)
+newdata_plasmid <- newdata_plasmid %>%
+  mutate(
+    pred = plogis(pred_plasmid$fit),
+    lower = plogis(pred_plasmid$fit - 1.96 * pred_plasmid$se.fit),
+    upper = plogis(pred_plasmid$fit + 1.96 * pred_plasmid$se.fit),
+    model = "Plasmid"
+  )
+
+# Combine all
+pred_df <- bind_rows(
+  rename(newdata_total, x = total_ISs),
+  rename(newdata_chr, x = n_Chromosome),
+  rename(newdata_plasmid, x = n_Plasmid)
+)
+
+
+# Plot Main Fig. 3D (predicted probabilities of KO depending on chromosomal or plasmid IS copies)
+
+a <- pred_df %>%
+  filter(model != "Total ISs") %>%
+  ggplot(aes(x = x, y = pred*100, color = model, fill = model)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = lower*100, ymax = upper*100), alpha = 0.25, linetype = 0) +
+  labs(
+    x = "# IS copies",
+    y = "Probability of KOs (%)",
+    color = "Model",
+  ) +
+  ylim(0,100)+
+  #facet_wrap(~model, nrow = 1)+
+  scale_color_manual(values = c("Chromosome ISs" = "#CBA328", "Plasmid ISs" = "#AA3377")) +
+  scale_fill_manual(values = c("Chromosome ISs" = "#CBA328", "Plasmid ISs" = "#AA3377")) +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "bottom") +
+  theme(panel.background = element_blank(), panel.grid = element_blank(),
+        #legend.position = "none",
+        strip.background = element_blank(),
+        aspect.ratio = 1); a
+
+# Or plot total (merged chromosomal & plasmid) probability
+
+b <- pred_df %>%
+  filter(model == "Total ISs") %>%
+  ggplot(aes(x = x, y = pred*100, color = model, fill = model)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = lower*100, ymax = upper*100), alpha = 0.25, linetype = 0) +
+  labs(
+    x = "# IS copies",
+    y = "Probability of KOs (%)",
+    color = "Model",
+  ) +
+  ylim(0,100)+
+  #facet_wrap(~model, nrow = 1)+
+  scale_color_manual(values = c("Total ISs" = "#BBBBBB")) +
+  scale_fill_manual(values = c("Total ISs" = "#BBBBBB")) +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "bottom") +
+  theme(panel.background = element_blank(), panel.grid = element_blank(),
+        #legend.position = "none",
+        strip.background = element_blank(),
+        aspect.ratio = 1); b

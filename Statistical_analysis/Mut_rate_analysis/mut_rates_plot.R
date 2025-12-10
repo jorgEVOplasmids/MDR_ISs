@@ -17,7 +17,7 @@ two_col_palette <- c("#BBBBBB", "#AA3377", "#286995")
 table_mut_rates <- read.xlsx("supplementary_table_2.xlsx", sheetName = "Results")
 
 # Reorder table to plot as shown in the manuscript order
-table_mut_rates$Strain <- factor(table_mut_rates$Strain, levels = c("KPN01", "KPN01p", "n1", "KPN10", "KPN10p", "n2", "KPN13", "KPN13p", "n3", "KPN16", "KPN16p", "n4", "KPN08", "KPN08p", "KPN08pΔΔIS1"))
+table_mut_rates$Strain <- factor(table_mut_rates$Strain, levels = c("KPN01", "KPN01p", "KPN01pΔΔIS1", "n1", "KPN10", "KPN10p", "KPN10pΔΔIS1", "n2", "KPN13", "KPN13p", "KPN13pΔΔIS1", "n3", "KPN16", "KPN16p", "KPN16pΔΔIS1", "n4", "KPN08", "KPN08p", "KPN08pΔΔIS1"))
 
 # Plot Colistin results
 
@@ -133,3 +133,4 @@ RIFPLOT <- table_mut_rates %>%
   )
 
 ggarrange(plotlist = list(COLPLOT, RIFPLOT), nrow = 2, common.legend =  TRUE, legend = "bottom")
+

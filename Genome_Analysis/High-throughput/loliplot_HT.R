@@ -861,8 +861,6 @@ condition <- evol_rescue_chloram %>%
 is <- evol_rescue_chloram %>%
   pull(IS)
 
-
-##
 mut_gr <- GRanges("chr1", IRanges(positions, width = 1))
 side <- replace (condition, condition == "TC", "top")
 side <- replace (side, side == "PF", "bottom")
@@ -891,13 +889,13 @@ arrow3 <- GRanges("chr1", ranges = IRanges(start = araJ_start, end = araJ_end),
                  height = 0.05, shape = "arrow", fill = "lightgrey")
 
 features <- c(arrow1, arrow2, arrow3)
-svg("lolliplot_ER_chloram_all.svg")
+svg("ERC_CMP.svg")
 lolliplot(mut_gr, features, 
           ranges = GRanges("chr1", IRanges(530, 3580)), 
           cex = 0.8)
 dev.off()
 
-##oqxR
+## We plot individually oqxR, as it is the main gene 
 evol_rescue_chloram <- read_xlsx("evolutionary_Rescue_all.xlsx", sheet = 7)
 evol_rescue_chloram <- evol_rescue_chloram[evol_rescue_chloram$Plot_gene =="oqxR", ]
 
@@ -938,8 +936,6 @@ condition <- evol_rescue_chloram %>%
 is <- evol_rescue_chloram %>%
   pull(IS)
 
-
-##
 mut_gr <- GRanges("chr1", IRanges(positions, width = 1))
 side <- replace (condition, condition == "TC", "top")
 side <- replace (side, side == "PF", "bottom")
@@ -960,15 +956,13 @@ oqxR_end <- 529
 arrow <- GRanges("chr1", ranges = IRanges(start = oqxR_start, end = oqxR_end), 
                  height = 0.05, shape = "arrow", fill = "lightgrey")
 features <- c(arrow)
-svg("lolliplot_ER_chloram.svg")
+svg("ER_CMP_main.svg")
 lolliplot(mut_gr, features, 
           ranges = GRanges("chr1", IRanges(0, 550)), 
           cex = 0.8)
 dev.off()
 
 
-
-#Representation piecharts
 muts_counter <- read_xlsx("evolutionary_Rescue_all.xlsx", sheet = 7 )
 muts_counter <- muts_counter[!is.na(muts_counter$Event), ]
 
@@ -996,7 +990,6 @@ muts_PF <- muts_counter[muts_counter$Condition=="PF", ]
 muts_TC <- muts_counter[muts_counter$Condition=="TC", ]
 
 
-
 counter_PF <- muts_PF %>%
   group_by(events) %>%
   summarise(Count = n(), .groups = "drop") %>%
@@ -1006,14 +999,12 @@ counter_PF$events <- factor(counter_PF$events, levels = c("DEL", "INDEL", "SNP_I
                                                           "SNP"))
 
 
-
 PF <- ggplot(counter_PF, aes(x = "", y = Count, fill = events)) +
   geom_bar(stat = "identity", width = 1, color = "black", size = 0.5) + 
   coord_polar("y", start = 0) + 
   geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
             position = position_stack(vjust = 0.5), 
             size = 5, color = "black", fontface = "bold") + 
-  #labs(title = "Mutational Events per Strains in PF") +
   theme_void() + 
   scale_fill_manual(values = c("INDEL" = "#edf8fbff",  
                                "NJ_N" = "#c6a8dfff",    
@@ -1025,7 +1016,7 @@ PF <- ggplot(counter_PF, aes(x = "", y = Count, fill = events)) +
                                "#a9a9a9ff"
   ))
 
-ggsave("counts_erchloram_PF.svg", plot = PF)
+ggsave("counts_ER_CMP_PF.svg", plot = PF)
 
 
 counter_TC <- muts_TC %>%
@@ -1044,7 +1035,6 @@ TC <- ggplot(counter_TC, aes(x = "", y = Count, fill = events)) +
   geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
             position = position_stack(vjust = 0.5), 
             size = 5, color = "black", fontface = "bold") + 
-  #labs(title = "Mutational Events per Strains in TC") +
   theme_void() + 
   scale_fill_manual(values = c("INDEL" = "#edf8fbff",  
                                "NJ_N" = "#c6a8dfff",    
@@ -1056,11 +1046,7 @@ TC <- ggplot(counter_TC, aes(x = "", y = Count, fill = events)) +
                                "#a9a9a9ff"
   ))
 
-ggsave("counts_erchloram_TC.svg", plot = TC)
-
-
-
-
+ggsave("counts_ER_CMP_TC.svg", plot = TC)
 
 
 ################################ Kanamycin  ####################################
@@ -1086,7 +1072,6 @@ evol_rescue_kana$events <- ifelse(
   evol_rescue_kana$Event,
   paste(evol_rescue_kana$Event, evol_rescue_kana$IS, sep = "_")
 )
-
 
 evol_rescue_kana <- evol_rescue_kana %>%
   mutate(plot = case_when(
@@ -1115,7 +1100,6 @@ is <- evol_rescue_kana %>%
   pull(IS)
 
 
-##
 mut_gr <- GRanges("chr1", IRanges(positions, width = 1))
 side <- replace (condition, condition == "TC", "top")
 side <- replace (side, side == "PF", "bottom")
@@ -1196,14 +1180,14 @@ arrow1 <- GRanges("chr1", ranges = IRanges(start = IM_protein_start,
 
 features <- c(arrow, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8, 
               arrow9, arrow1)
-svg("lolliplot_ER_kana_other.svg")
+svg("ER_KAN_genes.svg")
 lolliplot(mut_gr, features, 
           ranges = GRanges("chr1", IRanges(0, 12000)), 
           cex = 0.8)
 dev.off()
 
 
-####################     sbmA
+## We plot sbmA individually
 evol_rescue_kana <- read_xlsx("evolutionary_Rescue_all.xlsx",sheet = 8)
 evol_rescue_kana <- evol_rescue_kana[evol_rescue_kana$Plot_gene == "sbmA", ]
 
@@ -1239,7 +1223,6 @@ is <- evol_rescue_kana %>%
   pull(IS)
 
 
-##
 mut_gr <- GRanges("chr1", IRanges(positions, width = 1))
 side <- replace (condition, condition == "TC", "top")
 side <- replace (side, side == "PF", "bottom")
@@ -1263,14 +1246,13 @@ arrow <- GRanges("chr1", ranges = IRanges(start = sbmA_start, end = sbmA_end),
                  height = 0.05, shape = "arrow", fill = "lightgrey")
 
 features <- c(arrow)
-svg("lolliplot_ER_kana_sbmA.svg")
+svg("ER_KAN_main.svg")
 lolliplot(mut_gr, features, 
           ranges = GRanges("chr1", IRanges(0, 1260)), 
           cex = 0.8)
 dev.off()
 
 
-#PIECHARTS
 evol_rescue_kana <- read_xlsx("evolutionary_Rescue_all.xlsx",sheet = 8)
 evol_rescue_kana <- evol_rescue_kana[!is.na(evol_rescue_kana$Event), ]
 
@@ -1315,7 +1297,6 @@ PF <- ggplot(counter_PF, aes(x = "", y = Count, fill = events)) +
   geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
             position = position_stack(vjust = 0.5), 
             size = 5, color = "black", fontface = "bold") + 
-  #labs(title = "Mutational Events per Strains in PF") +
   theme_void() + 
   scale_fill_manual(values = c("INDEL" = "#edf8fbff",  
                                "NJ_N" = "#c6a8dfff",    
@@ -1327,7 +1308,7 @@ PF <- ggplot(counter_PF, aes(x = "", y = Count, fill = events)) +
                                "#a9a9a9ff"
   ))
 
-ggsave("counts_erkana_PF.svg", plot = PF)
+ggsave("counts_ER_KAN_PF.svg", plot = PF)
 
 
 
@@ -1347,7 +1328,6 @@ TC <- ggplot(counter_TC, aes(x = "", y = Count, fill = events)) +
   geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
             position = position_stack(vjust = 0.5), 
             size = 5, color = "black", fontface = "bold") + 
-  #labs(title = "Mutational Events per Strains in TC") +
   theme_void() + 
   scale_fill_manual(values = c("INDEL" = "#edf8fbff",  
                                "NJ_N" = "#c6a8dfff",    
@@ -1359,109 +1339,6 @@ TC <- ggplot(counter_TC, aes(x = "", y = Count, fill = events)) +
                                "#a9a9a9ff"
   ))
 
-ggsave("counts_erkana_TC.svg", plot = TC)
+ggsave("counts_ER_KAN_TC.svg", plot = TC)
 
 
-
-
-
-
-
-
-
-
-
-
-
-######################### Cipro & Chloram together #############################
-evol_rescue <- read_xlsx("evolutionary_Rescue_all.xlsx", sheet = 7 )
-
-evol_rescue <- evol_rescue %>%
-  mutate(Event = case_when(
-    Event != "SNP" ~ Event,
-    Event == "SNP" & grepl("^intergenic", Annotation) ~ "SNP_I",
-    Event == "SNP" & !grepl("^intergenic", Annotation) ~ {
-      amino_change <- sub("\\(.*$", "", Annotation)
-      first_aa <- substr(amino_change, 1, 1)
-      last_aa <- substr(amino_change, nchar(amino_change), nchar(amino_change))
-      ifelse(first_aa == last_aa, "SNP", "SNP_N")
-    }
-  ))
-
-
-evol_rescue$events <- ifelse(
-  is.na(evol_rescue$IS),
-  evol_rescue$Event,
-  paste(evol_rescue$Event, evol_rescue$IS, sep = "_")
-)
-
-evol_rescue <- evol_rescue[!is.na(evol_rescue$Plot_gene), ]
-evol_rescue <- evol_rescue[evol_rescue$Plot_gene %in% c("oqxR", "ramR"), ]
-
-evol_rescue <- evol_rescue[!evol_rescue$STRAIN == "K209", ]
-
-evol_rescue <- evol_rescue%>%
-  mutate(score = case_when(
-    STRAIN == "K168" ~ 11, 
-    STRAIN == "K253" ~ 41
-  ))
-
-evol_rescue <- evol_rescue %>%
-  mutate(plot = case_when(
-    Plot_gene == "oqxR" ~ Position + 50,
-    Plot_gene == "ramR" ~ Position + 570,
-  ))
-
-positions <- evol_rescue %>%
-  pull(plot)
-events <- evol_rescue %>%
-  pull(events)
-ATB <- evol_rescue %>%
-  pull(ATB)
-strain <- evol_rescue %>%
-  pull(STRAIN)
-condition <- evol_rescue %>%
-  pull(Condition)
-is <- evol_rescue %>%
-  pull(IS)
-score <- evol_rescue %>%
-  pull(score)
-
-color <- rep(NA, length(events))
-color <- ifelse(events == "NJ_Y", "#810f7c", color) 
-color <- ifelse (events == "NJ_N", "#c6a8dfff", color) 
-color <- ifelse(events == "SNP_I", "#aad0e2ff", color)
-color <- ifelse(events == "SNP_N", "#69acecff", color)
-color <- ifelse(events == "INDEL",  "#edf8fbff", color)
-color <- ifelse(events =="SNP", "#b7c4c8ff", color)
-
-shape <- "circle"
-shape <- ifelse(ATB == "Chloram", "square", shape)
-
-##
-mut_gr <- GRanges("chr1", IRanges(positions, width = 1))
-side <- replace (condition, condition == "TC", "top")
-side <- replace (side, side == "PF", "bottom")
-
-mut_gr$color <- color
-mut_gr$SNPsideID <-side
-mut_gr$score <- score
-mut_gr$label.parameter.rot <- 45
-mut_gr$shape <- shape
-
-oqxR_start <- 50
-oqxR_end <- 529
-arrow <- GRanges("chr1", ranges = IRanges(start = oqxR_start, end = oqxR_end), 
-                 height = 0.05, shape = "arrow", fill = "#e0d6d6ff")
-ramR_start <- 570
-ramR_end<- 1151
-arrow2 <- GRanges("chr1", ranges = IRanges(start = ramR_start, end = ramR_end), 
-                  height = 0.05, shape = "arrow", fill = "#e0d6d6ff")
-
-
-features <- c(arrow)
-svg("lolliplot_ER_cipro.svg")
-lolliplot(mut_gr, features, 
-          ranges = GRanges("chr1", IRanges(0, 570)), 
-          cex = 0.8)
-dev.off()

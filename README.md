@@ -14,6 +14,8 @@ The software required to reproduce the analyses presented in this work is listed
 - [Unicycler](https://github.com/rrwick/Unicycler)
 - [Bakta](https://github.com/oschwengers/bakta)
 
+R packages required to execute the code are listed in each script.
+
 ## Statistical analyses
 
 ### Phenotypic resistant mutation rate analysis

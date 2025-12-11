@@ -3,7 +3,7 @@
 # This script takes a folder with the short Illumina reads from evolved clones and maps them vs the reference genome of the strain to get genetic variants using breseq
 
 input_dir=$1 # A folder with all the short reads of the evolved clones from a given strain
-reference=$2 # A gbk file of the reference strain
+reference=$2 # A gbk or a gbff file of the reference strain
 output_dir=$3 # The folder in which the output is desired
 
 for reads1 in $input_dir/*_R1_001_val_1.fq.gz

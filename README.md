@@ -4,6 +4,16 @@ This repository summarizes the code developed for the work **"Plasmids promote a
 
 *The sequences generated for the development of this project can be found under the Bioproject ID PRJNA1294581.*
 
+The software required to reproduce the analyses presented in this work is listed here:
+
+- [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
+- [MultiQC](https://seqera.io/multiqc/)
+- [breseq](https://barricklab.org/twiki/bin/view/Lab/ToolsBacterialGenomeResequencing)
+- [R](https://www.r-project.org/)
+- [RSalvador package](https://eeeeeric.com/rSalvador/)
+- [Unicycler](https://github.com/rrwick/Unicycler)
+- [Bakta](https://github.com/oschwengers/bakta)
+
 ## Statistical analyses
 
 ### Phenotypic resistant mutation rate analysis

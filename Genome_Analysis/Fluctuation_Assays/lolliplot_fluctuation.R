@@ -255,7 +255,7 @@ dev.off()
 
 
 
-##### We plot all the mutational evetns affecting all the strains,
+##### We plot all the mutational events affecting all the strains,
 #independently of parallel evolution. 
 muts_counter<- read_xlsx("fluctuation_test_all.xlsx", sheet = 3 )
 muts_counter <- muts_counter[!is.na(muts_counter$Event), ]

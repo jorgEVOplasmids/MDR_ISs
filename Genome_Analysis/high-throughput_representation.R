@@ -64,8 +64,8 @@ evol_rescue_Colistin <- evol_rescue_Colistin %>%
 evol_rescue_Colistin$score <- NA
 evol_rescue_Colistin <- evol_rescue_Colistin %>%
   mutate(score = case_when(
-    STRAIN == "K168" ~ 31,
-    STRAIN == "K253" ~ 1
+    STRAIN == "KPN08" ~ 31,
+    STRAIN == "KPN16" ~ 1
     
   ))
 
@@ -165,8 +165,8 @@ evol_rescue_Colistin_mgrB$plot <- evol_rescue_Colistin_mgrB$Position+ 150
 
 evol_rescue_Colistin_mgrB <- evol_rescue_Colistin_mgrB %>%
   mutate(score = case_when(
-    STRAIN == "K168" ~ 31,
-    STRAIN == "K253" ~ 1
+    STRAIN == "KPN08" ~ 31,
+    STRAIN == "KPN16" ~ 1
   ))
 
 positions <- evol_rescue_Colistin_mgrB %>%
@@ -328,8 +328,8 @@ evol_rescue_cipro$events <- ifelse(
 
 evol_rescue_cipro <- evol_rescue_cipro%>%
   mutate(score = case_when(
-    STRAIN == "K168" ~ 41, 
-    STRAIN == "K253" ~ 11
+    STRAIN == "KPN08" ~ 41, 
+    STRAIN == "KPN16" ~ 11
   ))
 
 #### Due to the high number of genes with mutations, we separate them in fragments to visualize easily: 
@@ -663,8 +663,8 @@ evol_rescue_cipro$events <- ifelse(
 
 evol_rescue_cipro <- evol_rescue_cipro%>%
   mutate(score = case_when(
-    STRAIN == "K168" ~ 41, 
-    STRAIN == "K253" ~ 11
+    STRAIN == "KPN08" ~ 41, 
+    STRAIN == "KPN16" ~ 11
   ))
 
 

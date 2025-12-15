@@ -6,13 +6,14 @@ This repository summarizes the code developed for the work **"Plasmids promote a
 
 The software required to reproduce the analyses presented in this work is listed here:
 
-- [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
-- [MultiQC](https://seqera.io/multiqc/)
-- [breseq](https://barricklab.org/twiki/bin/view/Lab/ToolsBacterialGenomeResequencing)
-- [R](https://www.r-project.org/)
-- [rSalvador package](https://eeeeeric.com/rSalvador/)
-- [Unicycler](https://github.com/rrwick/Unicycler)
-- [Bakta](https://github.com/oschwengers/bakta)
+- [FastQC](https://www.bioinformatics.babraham.ac.uk/project) v.0.12.1
+- [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) v.0.6.10
+- [MultiQC](https://seqera.io/multiqc/) v.1.27.1
+- [breseq](https://barricklab.org/twiki/bin/view/Lab/ToolsBacterialGenomeResequencing) v.0.39.0
+- [R](https://www.r-project.org/) v.4.3.0
+- [rSalvador package](https://eeeeeric.com/rSalvador/) v.
+- [Unicycler](https://github.com/rrwick/Unicycler) v.0.5.0
+- [Bakta](https://github.com/oschwengers/bakta) v.1.9.3
 
 R packages required to execute the code are listed in each script.
 

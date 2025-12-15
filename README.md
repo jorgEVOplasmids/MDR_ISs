@@ -11,7 +11,7 @@ The software required to reproduce the analyses presented in this work is listed
 - [MultiQC](https://seqera.io/multiqc/) v.1.27.1
 - [breseq](https://barricklab.org/twiki/bin/view/Lab/ToolsBacterialGenomeResequencing) v.0.39.0
 - [R](https://www.r-project.org/) v.4.3.0
-- [rSalvador package](https://eeeeeric.com/rSalvador/) v.
+- [rSalvador package](https://eeeeeric.com/rSalvador/) v.1.9
 - [Unicycler](https://github.com/rrwick/Unicycler) v.0.5.0
 - [Bakta](https://github.com/oschwengers/bakta) v.1.9.3
 

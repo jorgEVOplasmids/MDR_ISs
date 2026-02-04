@@ -7,11 +7,11 @@ library(ggpubr)
 
 # Import sheet with main statistics
 
-communities_data <- read.xlsx("communites_source_data.xlsx", sheetIndex = 1)
+communities_data <- read.xlsx("communities_source_data.xlsx", sheetIndex = 1)
 
 # Statistically compare the number of TCs in the whole population and the ColR population
 
-table_stats <- read.xlsx("communites_source_data.xlsx", sheetIndex = 2)
+table_stats <- read.xlsx("communities_source_data.xlsx", sheetIndex = 2)
 
 contingency_table_CF <- data.frame(TC = c(146, 103), PF = c(19,97))
 rownames(contingency_table_CF) <- c("ColR", "Col_S")
@@ -195,4 +195,5 @@ conjugation_data %>%
     legend.position = "bottom",
     strip.background = element_blank()
   )
+
 

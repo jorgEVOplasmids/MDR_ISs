@@ -6,7 +6,7 @@
 
 
 # Set wd to folder containing OD measurements from plate readers
-setwd("~/experimental_IS1.2/CMIS")
+setwd("~/CMIS")
 
 library(dplyr)
 library(tidyr)
@@ -613,5 +613,6 @@ KPN16_CMIs <- result %>%
         #strip.text.x = element_blank(),
         legend.position = "none",
         strip.background = element_blank()); KPN16_CMIs
+
 
 

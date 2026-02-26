@@ -1,0 +1,25 @@
+
+## This .txt file redirects to the .pkl files per strain to model the conjugation rates included in the computational model of plasmid invasion and IS-mediated AMR evolution.
+
+# The following .pkl files are used in the MonodGillespieIS_conjugation.ipynb script present in the https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Computational_model/ GitHub folder.
+
+# KPN01 pOXA-48-
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K037_0.pkl
+# KPN01 pOXA-48+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K037_0.pkl
+# KPN08 pOXA-48-
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K168_0.pkl
+# KPN08 pOXA-48+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K168_p.pkl
+# KPN10 pOXA-48-
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K209_0.pkl
+# KPN10 pOXA-48+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K209_p.pkl
+# KPN16 pOXA-48-
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K241_0.pkl
+# KPN16 pOXA-48+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K241_p.pkl
+# KPN13 pOXA-48-
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K253_0.pkl
+# KPN13 pOXA-48+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data/params_K253_p.pkl

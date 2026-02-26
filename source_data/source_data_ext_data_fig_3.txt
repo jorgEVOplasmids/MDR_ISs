@@ -1,0 +1,4 @@
+### This txt file contains the links to the source files for Ext. Data Fig. 3.
+
+The raw WGS sequences necessary to represent the information analyzed in Ext. Data Fig. 3 are present in the Bioproject PRJNA1294581 [https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1294581/], which can be analyzed through the breseq_loop.sh and high-throughput_representation.R scripts uploaded in the GitHub repository folder https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Genome_Analysis.
+

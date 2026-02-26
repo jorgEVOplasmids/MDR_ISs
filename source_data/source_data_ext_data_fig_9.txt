@@ -1,0 +1,7 @@
+
+## This .txt file redirects to the .pkl files per strain to model the conjugation rates included in the computational model of plasmid invasion and IS-mediated AMR evolution.
+
+# The files from the following URL are used in the MonodGillespieIS_networks.ipynb script present in the https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Computational_model/ GitHub folder to show how connectivity of the conjugation network affects plasmid prevalence.
+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data
+

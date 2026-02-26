@@ -1,0 +1,5 @@
+
+### This txt file contains the links to the source files for Ext. Data Fig. 2.
+
+The raw WGS sequences necessary to represent the information analyzed in Ext. Data Fig. 2 are present in the Bioproject PRJNA1294581 [https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1294581/].
+

@@ -1,0 +1,16 @@
+
+## This .txt file redirects to the .pkl files per strain to model the conjugation rates included in the computational model of plasmid invasion and IS-mediated AMR evolution.
+
+# The files from the following URL are used in the MonodGillespieIS_parametrization.ipynb, MonodGillespieIS_networks.ipynb, MonodGillespieIS_networks.ipynb, and MonodGillespieIS_multispecies.ipynb scripts present in the https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Computational_model/ GitHub folder to both parametrize the model (as shown in Ext. Data Figs. 6,7,8,9 and 10, and main Fig. 5).
+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Computational_model/data
+
+DO_kinetic.txt:
+contains the growth parameters for each strain and genotype.
+
+IS_data.csv:
+contains the IS transposition rate and SNP mutation rate for each strain and condition, extracted from (Sastre-Dominguez, J., DelaFuente, J., Toribio-Celestino, L., Herencias, C., Herrador-Gomez, P., Costas, C., ... & San Millan, A. (2024). Plasmid-encoded insertion sequences promote rapid adaptation in clinical enterobacteria. Nature ecology & evolution, 8(11), 2097-2112.).
+
+.pkl files per strain:
+contain the conjugation data for each strain and genotype.
+

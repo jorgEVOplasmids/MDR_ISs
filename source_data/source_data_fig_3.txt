@@ -1,0 +1,17 @@
+
+### This txt file contains the links to the source files for Fig. 3.
+
+## The data containing the metadata and genome IDs of the ~19k genomes analyzed and represented in Fig. 3B is present in the following file:
+
+https://github.com/jorgEVOplasmids/MDR_ISs/blob/main/Databases_analysis/KO_impact_Phenotypic_AMR/NCBI_complete_database.zip
+
+## Which can be analyzed by downloading the genomes through FTP, and then executing the Download_genomes.sh, General_filtering.sh, Annotation_Genomes.sh, Main_analysis.R and KO_analysis.R scripts to represent the plot shown in Fig. 3B.
+
+## The data containing the metadata and genome IDs of the >42k genomes analyzed and represented in Fig. 3C-E is present in the following file:
+
+https://github.com/jorgEVOplasmids/MDR_ISs/tree/main/Databases_analysis/AMR_determinant_distribution/data/BVBRC_complete_metadata.zip
+
+## Which can be analyzed by downloading the genomes through FTP, and then executing BVBRC_parsing.sh, reshape_BVBRC_results.R, reshape_BVBRC_results_non_enterobacteria.R and statistic_merged_BVBRC_all.R.
+
+## These scripts include the code to represent the plots shown in Fig. 3D-E.
+
